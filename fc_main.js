@@ -662,14 +662,14 @@ function autoTicker(){
    
 function autoCast() {
     if (!M) return; //Just leave if you don't have grimoire
-    if (M.magic == M.magicM) {
+    if (M.magic >= 0) {
         switch (FrozenCookies.autoSpell) {
             case 0:
                 return;
             case 1:
                 var CBG = M.spellsById[0];
                 if (M.magicM < Math.floor(CBG.costMin + CBG.costPercent*M.magicM)) return;
-                if(cpsBonus() >= FrozenCookies.minCpSMult) {
+                if(cpsBonus() >= FrozenCookies.minCpSMult || Game.hasBuff('Click frenzy')) {
                     M.castSpell(CBG);
                     logEvent('AutoSpell', 'Cast Conjure Baked Goods');
                 }
@@ -2165,7 +2165,7 @@ function autoGSBuy() {
             !Game.Upgrades['Golden switch [off]'].bought) {
             Game.Upgrades['Golden switch [off]'].buy();
         }
-    } else if (cpsBonus() <= 1) {
+    } else if (cpsBonus() <= 7) {
         if (Game.Upgrades['Golden switch [on]'].unlocked &&
             !Game.Upgrades['Golden switch [on]'].bought) {
             Game.CalculateGains(); // Ensure price is updated since Frenzy ended
